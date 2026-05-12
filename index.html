@@ -328,6 +328,17 @@
       margin-bottom:18px;
     }
 
+    .hidden-field{
+      display:none !important;
+      visibility:hidden;
+      opacity:0;
+      height:0;
+      width:0;
+      overflow:hidden;
+      position:absolute;
+      left:-9999px;
+    }
+
     label{
       display:block;
       margin-bottom:8px;
@@ -367,9 +378,15 @@
       transition:.2s ease;
     }
 
-    button:hover{
+    button:hover:not(:disabled){
       background:#000;
       transform:translateY(-1px);
+    }
+
+    button:disabled{
+      opacity:.65;
+      cursor:not-allowed;
+      transform:none;
     }
 
     .success{
@@ -380,6 +397,18 @@
       background:#dcfce7;
       border:1px solid #86efac;
       color:#166534;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .error{
+      display:none;
+      margin-top:18px;
+      padding:15px;
+      border-radius:14px;
+      background:#fee2e2;
+      border:1px solid #fca5a5;
+      color:#991b1b;
       font-size:14px;
       font-weight:600;
     }
@@ -650,24 +679,33 @@
           </p>
 
           <form id="petitionForm">
+            <div class="hidden-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
             <div class="form-group">
               <label for="fullname">Full Name</label>
-              <input type="text" id="fullname" required>
+              <input type="text" id="fullname" required autocomplete="name">
             </div>
 
             <div class="form-group">
               <label for="email">Email Address</label>
-              <input type="email" id="email" required>
+              <input type="email" id="email" required autocomplete="email">
             </div>
 
             <div class="turnstile-wrapper">
               <div class="cf-turnstile" data-sitekey="0x4AAAAAADNrL-iO0S5fn6gz"></div>
             </div>
 
-            <button type="submit">Add My Signature</button>
+            <button type="submit" id="submitBtn">Add My Signature</button>
 
             <div class="success" id="successBox">
               Thank you for supporting the petition.
+            </div>
+
+            <div class="error" id="errorBox">
+              Submission failed. Please try again.
             </div>
           </form>
         </div>
@@ -718,20 +756,45 @@
     const form = document.getElementById("petitionForm");
     const count = document.getElementById("signatureCount");
     const success = document.getElementById("successBox");
+    const errorBox = document.getElementById("errorBox");
+    const submitBtn = document.getElementById("submitBtn");
 
     let currentCount = 15736;
+    let isSubmitting = false;
+
+    function showSuccess(message) {
+      success.innerText = message || "Thank you for supporting the petition.";
+      success.style.display = "block";
+      errorBox.style.display = "none";
+    }
+
+    function showError(message) {
+      errorBox.innerText = message || "Submission failed. Please try again.";
+      errorBox.style.display = "block";
+      success.style.display = "none";
+    }
+
+    function setSubmitting(state) {
+      isSubmitting = state;
+      submitBtn.disabled = state;
+      submitBtn.innerText = state ? "Submitting..." : "Add My Signature";
+    }
 
     async function loadSignatureCount() {
       try {
-        const response = await fetch(GAS_WEB_APP_URL);
+        const response = await fetch(GAS_WEB_APP_URL, {
+          method: "GET",
+          cache: "no-store"
+        });
+
         const result = await response.json();
 
-        if (result.success) {
+        if (result.success && typeof result.totalSignatures === "number") {
           currentCount = result.totalSignatures;
           count.innerText = currentCount.toLocaleString();
         }
       } catch (err) {
-        console.log(err);
+        console.log("Unable to load signature count:", err);
       }
     }
 
@@ -740,18 +803,39 @@
     form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
+      if (isSubmitting) return;
+
+      success.style.display = "none";
+      errorBox.style.display = "none";
+
+      const honeypot = document.getElementById("website").value.trim();
+
+      if (honeypot) {
+        return;
+      }
+
       const fullname = document.getElementById("fullname").value.trim();
       const email = document.getElementById("email").value.trim().toLowerCase();
       const turnstileToken = document.querySelector("[name='cf-turnstile-response']")?.value;
 
-      if (!turnstileToken) {
-        alert("Please complete the anti-bot verification.");
+      if (!fullname || !email) {
+        showError("Please complete all required fields.");
         return;
       }
+
+      if (!turnstileToken) {
+        showError("Please complete the anti-bot verification.");
+        return;
+      }
+
+      setSubmitting(true);
 
       try {
         const response = await fetch(GAS_WEB_APP_URL, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
             fullname,
             email,
@@ -762,14 +846,18 @@
         const result = await response.json();
 
         if (!result.success) {
-          alert(result.message || "Unable to submit signature.");
+          showError(result.message || "Unable to submit signature.");
           return;
         }
 
-        await loadSignatureCount();
+        if (typeof result.totalSignatures === "number") {
+          currentCount = result.totalSignatures;
+          count.innerText = currentCount.toLocaleString();
+        } else {
+          await loadSignatureCount();
+        }
 
-        success.style.display = "block";
-        success.innerText = result.message || "Thank you for supporting the petition.";
+        showSuccess(result.message || "Signature recorded.");
 
         form.reset();
 
@@ -778,7 +866,9 @@
         }
 
       } catch (error) {
-        alert("Submission failed. Please try again.");
+        showError("Submission failed. Please try again.");
+      } finally {
+        setSubmitting(false);
       }
     });
   </script>
