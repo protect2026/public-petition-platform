@@ -29,8 +29,11 @@
     img{max-width:100%;display:block;}
 
     .container{
+      width:100%;
       max-width:1200px;
-      margin:auto;
+      margin:0 auto;
+      padding-left:24px;
+      padding-right:24px;
     }
 
     .hero{
@@ -60,10 +63,13 @@
       min-height:760px;
       display:flex;
       align-items:flex-end;
-      padding:70px 24px;
+      padding:70px 0;
     }
 
-    .hero-inner{max-width:800px;}
+    .hero-inner{
+      max-width:800px;
+      margin-left:0;
+    }
 
     .badge{
       display:inline-block;
@@ -119,6 +125,7 @@
       display:flex;
       gap:18px;
       flex-wrap:wrap;
+      justify-content:flex-start;
     }
 
     .stat-card{
@@ -143,12 +150,12 @@
     }
 
     .main-message{
-      padding:80px 24px 20px;
+      padding:80px 0 20px;
     }
 
     .message-wrapper{
       max-width:1100px;
-      margin:auto;
+      margin:0;
     }
 
     .message-intro{
@@ -296,7 +303,7 @@
     }
 
     .main{
-      padding:60px 24px 80px;
+      padding:60px 0 80px;
     }
 
     .grid{
@@ -453,7 +460,7 @@
     }
 
     .footer{
-      padding:0 24px 80px;
+      padding:0 0 80px;
     }
 
     .footer-card{
@@ -482,7 +489,7 @@
 
       .hero-content{
         min-height:auto;
-        padding:90px 22px 50px;
+        padding:90px 0 50px;
       }
 
       h1{
@@ -737,16 +744,18 @@
   </section>
 
   <section class="footer">
-    <div class="footer-card">
-      <h5>Privacy Notice</h5>
+    <div class="container">
+      <div class="footer-card">
+        <h5>Privacy Notice</h5>
 
-      <p>
-        Information submitted through this website is used solely for petition participation and anti-spam purposes.
-      </p>
+        <p>
+          Information submitted through this website is used solely for petition participation and anti-spam purposes.
+        </p>
 
-      <p>
-        By signing, users acknowledge that this website is an independent public platform and not an official government or political campaign website.
-      </p>
+        <p>
+          By signing, users acknowledge that this website is an independent public platform and not an official government or political campaign website.
+        </p>
+      </div>
     </div>
   </section>
 
