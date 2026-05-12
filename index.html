@@ -551,7 +551,7 @@
 
           <div class="stats">
             <div class="stat-card">
-              <h2 id="signatureCount">15,736</h2>
+              <h2 id="signatureCount">Loading...</h2>
               <span>Total Supporters</span>
             </div>
 
@@ -751,7 +751,8 @@
   </section>
 
   <script>
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw0LYpqaCl_uMmLSGwFo18pspU39bYFtFX1sWIlSv97Wi5uQOPIsH_cxHjFmVazRjFR/exec";
+    const COUNT_URL = "/api/count";
+    const SIGN_URL = "/api/sign";
 
     const form = document.getElementById("petitionForm");
     const count = document.getElementById("signatureCount");
@@ -782,7 +783,7 @@
 
     async function loadSignatureCount() {
       try {
-        const response = await fetch(GAS_WEB_APP_URL, {
+        const response = await fetch(COUNT_URL, {
           method: "GET",
           cache: "no-store"
         });
@@ -792,8 +793,11 @@
         if (result.success && typeof result.totalSignatures === "number") {
           currentCount = result.totalSignatures;
           count.innerText = currentCount.toLocaleString();
+        } else {
+          count.innerText = currentCount.toLocaleString();
         }
       } catch (err) {
+        count.innerText = currentCount.toLocaleString();
         console.log("Unable to load signature count:", err);
       }
     }
@@ -831,11 +835,8 @@
       setSubmitting(true);
 
       try {
-        const response = await fetch(GAS_WEB_APP_URL, {
+        const response = await fetch(SIGN_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
           body: JSON.stringify({
             fullname,
             email,
