@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Protect Sara Duterte - Public Petition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Protect VP Sara | Independent Public Petition</title>
+  <meta name="description" content="An independent public petition platform for citizens expressing support for due process, transparency, and fair democratic proceedings." />
+
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="assets/site.webmanifest" />
 
   <style>
     *{
@@ -15,17 +19,33 @@
       box-sizing:border-box;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
-      font-family:'Inter',sans-serif;
-      background:#f5f7fb;
+      font-family:Arial, Helvetica, sans-serif;
+      background:#f4f7fb;
       color:#111827;
       line-height:1.6;
     }
 
     .hero{
-      background:linear-gradient(135deg,#0f172a,#1e293b);
+      background:#0f172a;
       color:#fff;
-      padding:80px 24px;
+    }
+
+    .banner{
+      width:100%;
+      display:block;
+      max-height:520px;
+      object-fit:cover;
+      object-position:center;
+    }
+
+    .hero-content{
+      padding:54px 24px 64px;
+      background:linear-gradient(135deg,#0f172a,#1e293b);
     }
 
     .container{
@@ -44,21 +64,22 @@
     }
 
     h1{
-      font-size:56px;
+      font-size:54px;
       line-height:1.05;
       font-weight:800;
-      max-width:760px;
-      margin-bottom:24px;
+      max-width:780px;
+      margin-bottom:20px;
+      letter-spacing:-1.5px;
     }
 
     .hero p{
-      max-width:760px;
+      max-width:780px;
       font-size:18px;
       opacity:.92;
     }
 
     .counter-box{
-      margin-top:42px;
+      margin-top:38px;
       display:flex;
       gap:18px;
       flex-wrap:wrap;
@@ -74,7 +95,7 @@
     }
 
     .counter-card h2{
-      font-size:42px;
+      font-size:40px;
       font-weight:800;
       margin-bottom:4px;
     }
@@ -92,6 +113,7 @@
       display:grid;
       grid-template-columns:1.1fr .9fr;
       gap:32px;
+      align-items:start;
     }
 
     .card{
@@ -153,6 +175,18 @@
       background:#000;
     }
 
+    .success{
+      display:none;
+      margin-top:18px;
+      background:#dcfce7;
+      border:1px solid #86efac;
+      color:#166534;
+      padding:14px;
+      border-radius:12px;
+      font-size:14px;
+      font-weight:600;
+    }
+
     .donation-box{
       margin-top:28px;
       background:#f8fafc;
@@ -176,6 +210,7 @@
       height:220px;
       background:#e5e7eb;
       border-radius:18px;
+      overflow:hidden;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -183,7 +218,13 @@
       font-weight:600;
       margin:auto;
       text-align:center;
-      padding:20px;
+    }
+
+    .qr img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
     .disclosure{
@@ -219,22 +260,13 @@
       margin-bottom:10px;
     }
 
-    .success{
-      display:none;
-      margin-top:18px;
-      background:#dcfce7;
-      border:1px solid #86efac;
-      color:#166534;
-      padding:14px;
-      border-radius:12px;
-      font-size:14px;
-      font-weight:600;
-    }
-
     @media(max-width:900px){
+      .banner{
+        max-height:360px;
+      }
 
       h1{
-        font-size:40px;
+        font-size:38px;
       }
 
       .grid{
@@ -250,45 +282,39 @@
 <body>
 
   <section class="hero">
-    <div class="container">
+    <img class="banner" src="assets/vpsara.png" alt="Protect VP Sara banner" />
 
-      <div class="badge">
-        Independent Public Petition
-      </div>
+    <div class="hero-content">
+      <div class="container">
+        <div class="badge">Independent Public Petition</div>
 
-      <h1>
-        Protect Sara Duterte
-      </h1>
+        <h1>Protect VP Sara</h1>
 
-      <p>
-        Join thousands of Filipinos expressing support for due process,
-        transparency, and fair democratic proceedings.
-      </p>
+        <p>
+          Join Filipinos expressing support for due process, transparency,
+          and fair democratic proceedings.
+        </p>
 
-      <div class="counter-box">
+        <div class="counter-box">
+          <div class="counter-card">
+            <h2 id="signatureCount">15,736</h2>
+            <span>Total Supporters</span>
+          </div>
 
-        <div class="counter-card">
-          <h2 id="signatureCount">15,736</h2>
-          <span>Total Supporters</span>
+          <div class="counter-card">
+            <h2>24H</h2>
+            <span>Public Petition Access</span>
+          </div>
         </div>
-
-        <div class="counter-card">
-          <h2>24H</h2>
-          <span>Public Petition Access</span>
-        </div>
-
       </div>
-
     </div>
   </section>
 
   <section class="main">
     <div class="container">
-
       <div class="grid">
 
         <div class="card">
-
           <h3>Sign the Petition</h3>
 
           <p class="petition-copy">
@@ -297,35 +323,28 @@
           </p>
 
           <form id="petitionForm">
-
             <div class="form-group">
-              <label>Full Name</label>
-              <input type="text" placeholder="Juan Dela Cruz" required>
+              <label for="fullname">Full Name</label>
+              <input id="fullname" name="fullname" type="text" placeholder="Juan Dela Cruz" required />
             </div>
 
             <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" placeholder="juan@email.com" required>
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" placeholder="juan@email.com" required />
             </div>
 
-            <button type="submit">
-              Add My Signature
-            </button>
+            <button type="submit">Add My Signature</button>
 
             <div class="success" id="successBox">
               Thank you for supporting the petition.
             </div>
-
           </form>
-
         </div>
 
         <div class="card">
-
           <h3>Help Maintain The Website</h3>
 
           <div class="donation-box">
-
             <h4>Voluntary Donations</h4>
 
             <p>
@@ -334,7 +353,7 @@
             </p>
 
             <div class="qr">
-              PLACE YOUR GCASH QR HERE
+              <img src="assets/qr.jpg" alt="Donation QR code" />
             </div>
 
             <div class="disclosure">
@@ -343,21 +362,16 @@
               Donations do not constitute political contributions and are used only
               for maintaining and operating this website.
             </div>
-
           </div>
-
         </div>
 
       </div>
-
     </div>
   </section>
 
   <section class="footer">
     <div class="container">
-
       <div class="footer-card">
-
         <h5>Privacy Notice</h5>
 
         <p>
@@ -369,9 +383,7 @@
           By signing, users acknowledge that this website is an independent
           public platform and not an official government or political campaign website.
         </p>
-
       </div>
-
     </div>
   </section>
 
@@ -388,7 +400,6 @@
       currentCount++;
 
       count.innerText = currentCount.toLocaleString();
-
       success.style.display = 'block';
 
       form.reset();
